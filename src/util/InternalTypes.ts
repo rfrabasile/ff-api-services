@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid/interfaces';
 
 export type UniformObject<T> = { [key: string]: T };
-export type ParamList = UniformObject<string | number | undefined>;
+export type ParamList = UniformObject<boolean | string | number | undefined>;
 
 export interface SearchResult<T> {
     entries: T[];

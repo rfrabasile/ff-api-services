@@ -1,6 +1,7 @@
 import { ViewDefinition, ViewDefinitionCategory, ViewType } from '@flowfact/types';
 import { AxiosResponse } from 'axios';
 import { APIClient, APIMapping } from '../http';
+import * as qs from 'qs';
 
 export class ViewDefinitionService extends APIClient {
 
@@ -26,6 +27,14 @@ export class ViewDefinitionService extends APIClient {
      */
     async fetchDefinition(viewDefinitionId: string): Promise<AxiosResponse> {
         return await this.invokeApi(`/views/${viewDefinitionId}`, 'GET');
+    }
+
+    /**
+     * Returns statistics for all views of a specific schema
+     * @param schemaIdOrName
+     */
+    async fetchStatistics(schemaIdOrName: string): Promise<AxiosResponse> {
+        return await this.invokeApi(`/views/${schemaIdOrName}/statistics`, 'GET');
     }
 
     /**
@@ -105,6 +114,18 @@ export class ViewDefinitionService extends APIClient {
      */
     async fetchBySchemaAndType(schemaId: string, viewType: ViewType) {
         return await this.invokeApi(`/views/schema/${schemaId}/type/${viewType}`, 'GET');
+    }
+
+    /**
+     * Returns one or more view definitions by given types for a specific schema
+     * @param schemaId
+     * @param viewTypes
+     */
+    async fetchBySchemaAndTypes(schemaId: string, viewTypes: ViewType[]) {
+        return await this.invokeApi(`/views/schema/${schemaId}`, 'GET', undefined, {
+            params: {types: viewTypes},
+            paramsSerializer: params => qs.stringify(params, {indices: false})
+        });
     }
 }
 

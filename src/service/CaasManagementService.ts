@@ -1,8 +1,8 @@
 import {
     ContainerCreate,
+    ContainerDetails,
     ContainerLogsResponse,
     ContainerResponse,
-    ContainerDetails,
     Database,
     DatabaseCreate,
     GetAllContainersResponse,
@@ -12,7 +12,7 @@ import {
     Project,
     ProjectCreate,
 } from '@flowfact/types';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import APIClient from '../http/APIClient';
 import APIMapping from '../http/APIMapping';
 
@@ -29,7 +29,7 @@ export class CaasManagementService extends APIClient {
      * @return {GetAllProjectsResponse}
      */
     async fetchAllProjects(): Promise<AxiosResponse<GetAllProjectsResponse>> {
-        return await this.invokeApi('/projects', 'GET');
+        return this.invokeApi('/projects', 'GET');
     }
 
     /**
@@ -38,7 +38,7 @@ export class CaasManagementService extends APIClient {
      * @return {Project}
      */
     async fetchProject(id: string): Promise<AxiosResponse<Project>> {
-        return await this.invokeApi(`/projects/${id}`, 'GET');
+        return this.invokeApi(`/projects/${id}`, 'GET');
     }
 
     /**
@@ -47,7 +47,7 @@ export class CaasManagementService extends APIClient {
      * @return {Project}
      */
     async createProject(projectConfiguration: ProjectCreate): Promise<AxiosResponse<Project>> {
-        return await this.invokeApi('/projects', 'POST', projectConfiguration);
+        return this.invokeApi('/projects', 'POST', projectConfiguration);
     }
 
     /**
@@ -55,7 +55,7 @@ export class CaasManagementService extends APIClient {
      * @param id
      */
     async deleteProject(id: string): Promise<AxiosResponse> {
-        return await this.invokeApi(`/projects/${id}`, 'DELETE');
+        return this.invokeApi(`/projects/${id}`, 'DELETE');
     }
 
     /* ############ Containers ############ */
@@ -65,7 +65,7 @@ export class CaasManagementService extends APIClient {
      * @return {GetAllContainersResponse}
      */
     async fetchAllContainers(): Promise<AxiosResponse<GetAllContainersResponse>> {
-        return await this.invokeApi('/containers', 'GET');
+        return this.invokeApi('/containers', 'GET');
     }
 
     /**
@@ -74,7 +74,7 @@ export class CaasManagementService extends APIClient {
      * @return {ContainerResponse}
      */
     async fetchContainer(id: string): Promise<AxiosResponse<ContainerResponse>> {
-        return await this.invokeApi(`/containers/${id}`, 'GET');
+        return this.invokeApi(`/containers/${id}`, 'GET');
     }
 
     /**
@@ -83,7 +83,7 @@ export class CaasManagementService extends APIClient {
      * @return {ContainerLogsResponse}
      */
     async fetchContainerLogs(id: string): Promise<AxiosResponse<ContainerLogsResponse>> {
-        return await this.invokeApi(`/containers/${id}/logs`, 'GET');
+        return this.invokeApi(`/containers/${id}/logs`, 'GET');
     }
 
     /**
@@ -92,7 +92,7 @@ export class CaasManagementService extends APIClient {
      * @return {ContainerResponse}
      */
     async createContainer(containerConfiguration: ContainerCreate): Promise<AxiosResponse<ContainerResponse>> {
-        return await this.invokeApi('/containers', 'POST', containerConfiguration);
+        return this.invokeApi('/containers', 'POST', containerConfiguration);
     }
 
     /**
@@ -102,7 +102,7 @@ export class CaasManagementService extends APIClient {
      * @return {ContainerResponse}
      */
     async updateContainer(id: string, containerConfiguration: ContainerDetails): Promise<AxiosResponse<ContainerResponse>> {
-        return await this.invokeApi(`/containers/${id}`, 'PUT', containerConfiguration);
+        return this.invokeApi(`/containers/${id}`, 'PUT', containerConfiguration);
     }
 
     /**
@@ -110,7 +110,15 @@ export class CaasManagementService extends APIClient {
      * @param id
      */
     async deleteContainer(id: string): Promise<AxiosResponse> {
-        return await this.invokeApi(`/containers/${id}`, 'DELETE');
+        return this.invokeApi(`/containers/${id}`, 'DELETE');
+    }
+
+    /**
+     * GETs the given url and returns the respose
+     * @param {string} url
+     */
+    async pingUrl(url: string): Promise<AxiosResponse> {
+        return axios.get(url);
     }
 
     /**
@@ -118,7 +126,7 @@ export class CaasManagementService extends APIClient {
      * @param niceName
      */
     async isNiceNameAvailable(niceName: string): Promise<AxiosResponse<NiceNameAvailableResponse>> {
-        return await this.invokeApi(`/containers/nice-name-available?value=${niceName}`, 'GET');
+        return this.invokeApi(`/containers/nice-name-available?value=${niceName}`, 'GET');
     }
 
     /* ############ Databases ############ */
@@ -128,7 +136,7 @@ export class CaasManagementService extends APIClient {
      * @return {GetAllDatabasesResponse}
      */
     async fetchAllDatabases(): Promise<AxiosResponse<GetAllDatabasesResponse>> {
-        return await this.invokeApi('/databases', 'GET');
+        return this.invokeApi('/databases', 'GET');
     }
 
     /**
@@ -137,7 +145,7 @@ export class CaasManagementService extends APIClient {
      * @return {Database}
      */
     async fetchDatabase(id: string): Promise<AxiosResponse<Database>> {
-        return await this.invokeApi(`/databases/${id}`, 'GET');
+        return this.invokeApi(`/databases/${id}`, 'GET');
     }
 
     /**
@@ -146,7 +154,7 @@ export class CaasManagementService extends APIClient {
      * @return {Database}
      */
     async createDatabase(databaseConfiguration: DatabaseCreate): Promise<AxiosResponse<Database>> {
-        return await this.invokeApi('/databases', 'POST', databaseConfiguration);
+        return this.invokeApi('/databases', 'POST', databaseConfiguration);
     }
 
     /**
@@ -154,7 +162,7 @@ export class CaasManagementService extends APIClient {
      * @param id
      */
     async deleteDatabase(id: string): Promise<AxiosResponse> {
-        return await this.invokeApi(`/databases/${id}`, 'DELETE');
+        return this.invokeApi(`/databases/${id}`, 'DELETE');
     }
 }
 

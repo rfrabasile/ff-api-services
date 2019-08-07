@@ -16,9 +16,12 @@ export class NylasService extends APIClient {
      * Authorize a user with the code from the nylas callback
      * @param code
      */
-    async authorizeUser(code: string): Promise<AxiosResponse> {
-        return await this.invokeApi('/authorize', 'POST', undefined, {
+    async authorizeUser(code: string, isGmail:boolean = false): Promise<AxiosResponse> {
+        return await this.invokeApi('/account', 'POST', undefined, {
             queryParams: {
+                command: 'authorize',
+                nativeAuth: false,
+                isGmail: isGmail,
                 code: code
             }
         });
@@ -29,7 +32,7 @@ export class NylasService extends APIClient {
      * @param authRequest IMAP/SMTP credentials
      */
     async nativeAuth(authRequest: AuthRequest): Promise<AxiosResponse> {
-        return await this.invokeApi('/authorize', 'POST', authRequest, {
+        return await this.invokeApi('/account', 'POST', authRequest, {
             queryParams: {
                 nativeAuth: true
             }
@@ -73,11 +76,12 @@ export class NylasService extends APIClient {
      * @param email
      * @param callbackUrl URL that has to be confiured
      */
-    async getRegistrationUrl(email: string, callbackUrl?: string): Promise<AxiosResponse<RegistrationUrl>> {
+    async getRegistrationUrl(email: string, callbackUrl?: string, isGmail: boolean = false): Promise<AxiosResponse<RegistrationUrl>> {
         return await this.invokeApi('/registration-url', 'GET', undefined, {
             queryParams: {
                 email: email,
-                callbackUrl: callbackUrl
+                callbackUrl: callbackUrl,
+                isGmail: isGmail
             }
         });
     }

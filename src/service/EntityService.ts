@@ -3,7 +3,7 @@ import { Entity, EntityAccess, EntityACLType, EntityValues, EntityView } from '@
 import { AxiosResponse } from 'axios';
 import { v4 as uuid } from 'uuid/interfaces';
 import { APIClient, APIMapping } from '../http';
-import { EntityQuery, ParamList, SearchResult, UniformObject } from '../util/InternalTypes';
+import { EntityQuery, ParamList, SearchResult, UniformObject } from '..';
 
 export class EntityService extends APIClient {
 
@@ -58,12 +58,14 @@ export class EntityService extends APIClient {
      * @param flowdsl
      * @param page
      * @param size
+     * @param withCount
      */
-    async searchEntity(index: string, viewName: string, flowdsl?: Flowdsl, page: number = 1, size: number = 20) {
+    async searchEntity(index: string, viewName: string, flowdsl?: Flowdsl, page: number = 1, size: number = 20, withCount?: boolean) {
         const queryParams: ParamList = {
             page,
             size,
             viewName,
+            withCount
         };
 
         return this.invokeApi<SearchResult<EntityView>>(`/search/schemas/${index}`, 'POST', flowdsl, {
@@ -78,12 +80,14 @@ export class EntityService extends APIClient {
      * @param flowdsl
      * @param offset
      * @param size
+     * @param withCount
      */
-    async fetchEntitiesVirtualized(index: string, viewName: string, flowdsl?: Flowdsl, offset: number = 0, size: number = 20) {
+    async fetchEntitiesVirtualized(index: string, viewName: string, flowdsl?: Flowdsl, offset: number = 0, size: number = 20, withCount?: boolean) {
         const queryParams: ParamList = {
             offset,
             size,
             viewName,
+            withCount
         };
 
         return this.invokeApi<SearchResult<EntityView>>(`/search/schemas/${index}`, 'POST', flowdsl, {
@@ -98,12 +102,14 @@ export class EntityService extends APIClient {
      * @param flowdsl
      * @param offset
      * @param size
+     * @param withCount
      */
-    async fetchEntitiesVirtualizedV2(index: string, viewName: string, flowdsl?: Flowdsl, offset: number = 0, size: number = 20) {
+    async fetchEntitiesVirtualizedV2(index: string, viewName: string, flowdsl?: Flowdsl, offset: number = 0, size: number = 20, withCount?: boolean) {
         const queryParams: ParamList = {
             offset,
             size,
             viewName,
+            withCount
         };
 
         return this.invokeApi<SearchResult<EntityView>>(`/search/schemas/${index}`, 'POST', flowdsl, {

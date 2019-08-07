@@ -1,4 +1,4 @@
-import { Flowdsl, Inquiry } from '@flowfact/types';
+import { Flowdsl, Inquiry, InquiryAutomation } from '@flowfact/types';
 import { AxiosResponse } from 'axios';
 import { APIClient, APIMapping } from '../http';
 
@@ -35,6 +35,14 @@ export class InquiryService extends APIClient {
      */
     linkEstateAndStartAutomation(inquiryId: string, estateId: string): Promise<AxiosResponse<Inquiry>> {
         return this.invokeApi(`/inquiry/${inquiryId}/setEstate/${estateId}`, 'POST');
+    }
+
+    isInquiryAutomationActive(companyId: string): Promise<AxiosResponse<InquiryAutomation>> {
+        return this.invokeApi(`/inquiry/automation/${companyId}`, 'GET');
+    }
+
+    toggleAutomation(companyId: string): Promise<AxiosResponse<InquiryAutomation>> {
+        return this.invokeApi(`/inquiry/automation/${companyId}`, 'POST');
     }
 
 }

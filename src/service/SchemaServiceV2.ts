@@ -5,6 +5,7 @@ import { APIClient, APIMapping } from '../http';
 const v2Header = { headers: { 'x-ff-version': 2 } };
 
 export class SchemaServiceV2 extends APIClient {
+
     constructor() {
         super(APIMapping.schemaService);
     }
@@ -20,13 +21,21 @@ export class SchemaServiceV2 extends APIClient {
     /**
      * Returns all schemas
      * @param group - Filters all schemas for given group name.
+     * @param size - Page size of the response.
+     * @param page - Page number of the response.
      */
-    fetchAllSchemas = async (group?: string): Promise<AxiosResponse<SchemaV2[]>> => {
-        let params: any = undefined;
+    fetchAllSchemas = async (group?: string, size?: number, page?: number): Promise<AxiosResponse<SchemaV2[]>> => {
+        let queryParams: any = {};
         if (group) {
-            params = { group: group };
+            queryParams.group = group;
         }
-        return this.invokeApi(`/v2/schemas`, 'GET', undefined, { params });
+        if (size) {
+            queryParams.size = size;
+        }
+        if (page) {
+            queryParams.page = page;
+        }
+        return this.invokeApi(`/v2/schemas`, 'GET', undefined, { queryParams });
     };
 
     /**
@@ -53,10 +62,10 @@ export class SchemaServiceV2 extends APIClient {
     /**
      * Returns a schema
      * @param schemaIdOrName - The schema's id or schema name
-     * @param {FetchSchemaByIdOrNameQueryParam} params - resolves groups, like estates, to hist children - Default value : false
+     * @param {FetchSchemaByIdOrNameQueryParam} queryParams - resolves groups, like estates, to hist children - Default value : false
      */
-    fetchSchemaByIdOrName = async (schemaIdOrName: string, params: { resolveGroup?: boolean } = {}): Promise<AxiosResponse<SchemaV2>> => {
-        return this.invokeApi(`/v2/schemas/${schemaIdOrName}`, 'GET', undefined, { params });
+    fetchSchemaByIdOrName = async (schemaIdOrName: string, queryParams: { resolveGroup?: boolean } = {}): Promise<AxiosResponse<SchemaV2>> => {
+        return this.invokeApi(`/v2/schemas/${schemaIdOrName}`, 'GET', undefined, { queryParams });
     };
 
     /**

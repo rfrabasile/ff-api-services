@@ -8,7 +8,7 @@ import {
 import { Entity, FilterConfiguration } from '@flowfact/types';
 import { AxiosResponse } from 'axios';
 import { APIClient, APIMapping } from '../http';
-import { SearchResult } from '../util/InternalTypes';
+import { SearchResult } from '..';
 
 export class SearchService extends APIClient {
 
@@ -57,19 +57,23 @@ export class SearchService extends APIClient {
     }
 
     /**
-     * TODO: Please comment this method
+     * This method searches for entities or tags. See swagger documentation of search-service for details
      * @param query
      * @param index
      * @param page
      * @param size
+     * @param withCount
      */
-    async search(query: Flowdsl, index: string, page: number = 1, size?: number) {
+    async search(query: Flowdsl, index: string, page: number = 1, size?: number, withCount?: boolean) {
         let queryParams: any = {};
         if (page) {
             queryParams.page = page;
         }
         if (size) {
             queryParams.size = size;
+        }
+        if (withCount) {
+            queryParams.withCount = withCount;
         }
 
         return await this.invokeApi<SearchResult<Entity>>('/schemas/' + index, 'POST', query, {
