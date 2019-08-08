@@ -23,7 +23,7 @@
   "dependencies": {
     "@flowfact/consul-client": "^0.20190425.7",
     "@flowfact/node-flowdsl": "^1.20190520.14",
-    "@flowfact/types": "^1.20190731.57",
+    "@flowfact/types": "^1.20190808.58",
     "@types/graphql": "14.0.7",
     "@types/node": "^8.5.9",
     "@types/prop-types": "^15.5.1",
